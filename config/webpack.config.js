@@ -2,11 +2,11 @@ const path = require('path');
 const webpack = require('webpack');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PATHS = {
   root: path.resolve(__dirname, '..'),
   nodeModules: path.resolve(__dirname, '../node_modules'),
-  src: path.resolve(__dirname, '../src'),
+  src: path.resolve(__dirname, '../client'),
   dist: path.resolve(__dirname, '../dist'),
 };
 
@@ -37,7 +37,7 @@ module.exports = (env = {}) => {
     entry: {
       app: [
         'react-hot-loader/patch',
-        './src/index.tsx',
+        './client/index.tsx',
       ],
     },
     output: {
@@ -49,10 +49,10 @@ module.exports = (env = {}) => {
 
     resolve: {
       alias: {
-        '~Store': path.resolve(__dirname, '../src/store'),
+        'Store': path.resolve(__dirname, '../client/store'),
       },
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-      modules: ['src', 'node_modules'],
+      modules: ['client', 'node_modules'],
     },
 
     module: {
@@ -84,15 +84,41 @@ module.exports = (env = {}) => {
           include: [PATHS.src],
           use: { loader: 'json-loader' },
         },
-        // // css
-        // {
-        //   test: /\.css$/,
-        //   include: [PATHS.STYLES],
-        //   loader: ExtractTextPlugin.extract([
-        //     'css-loader?{modules: false}',
-        //     'postcss-loader',
-        //   ]),
-        // },
+        // css
+        {
+          test: /\.css$/,
+          use: [
+              require.resolve('style-loader'),
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  modules: false,
+                  sourceMap: true,
+                  localIdentName: '[name]__[local]--[hash:base64:5]',
+                  importLoaders: 1
+                }
+              },
+              {
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                    autoprefixer({
+                      browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 9' // React doesn't support IE8 anyway
+                      ],
+                      flexbox: 'no-2009'
+                    })
+                  ]
+                }
+              }
+            ]
+          }
+
         // // less
         // {
         //   test: /\.less$/,

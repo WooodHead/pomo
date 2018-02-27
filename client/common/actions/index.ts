@@ -2,8 +2,10 @@
 import { RouterAction, LocationChangeAction } from 'react-router-redux';
 import { getReturnOfExpression } from 'utility-types';
 
-export const actions = {
+import { navigate } from './navigate';
 
+export {
+  navigate
 };
 
 const returnsOfActions = [

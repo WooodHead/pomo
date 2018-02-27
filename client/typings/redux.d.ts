@@ -17,8 +17,10 @@
  * @template T the type of the action's `type` tag.
  */
 export interface Action<T = any> {
-  type: T;
-  payload: T;
+  type: string;
+  payload?: T;
+  exception?: any;
+  metadata?: any;
 }
 
 /* reducers */

@@ -31,7 +31,7 @@ function configureStore(initialState?: any) {
 }
 
 // pass an optional param to rehydrate state on app start
-export const store = configureStore();
+export const store = configureStore({authentication: {isAuth: false}});
 
 sagaMiddleware.run(sagas);
 

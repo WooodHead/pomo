@@ -2,9 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./", // enables relative imports to root
     "paths": {
-      "redux": ["src/typings/redux.d.ts"],
-      "~Store": ["src/store.ts"],
-      "Features/*": ["src/features/*"],
+      "redux": ["client/typings/redux.d.ts"],
+      "Store": ["client/store.ts"],
+      "common/*":["client/common/*"],
+      "features/*": ["client/features/*"],
     },
     "outDir": "out/", // target for compiled files
     "allowSyntheticDefaultImports": true, // no errors on commonjs default import
@@ -39,10 +40,12 @@
     ]
   },
   "include": [
-    "src/**/*"
+    "client/**/*",
+    "server/**/*"
   ],
   "exclude": [
     "node_modules",
-    "src/**/*.spec.*"
+    "client/**/*.spec.*",
+    "server/**/*.spec.*"
   ]
 }
